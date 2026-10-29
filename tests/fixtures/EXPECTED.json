@@ -1,0 +1,221 @@
+{
+  "images/clean": {
+    "classes": {
+      "cat": 32,
+      "dog": 32
+    },
+    "errors": [],
+    "warnings": [],
+    "note": "control set: no VAL-1..8/13 flags"
+  },
+  "images/corrupt": {
+    "VAL-1": 4,
+    "files": [
+      "cat/zero_bytes.png",
+      "cat/truncated.png",
+      "dog/garbage.jpg",
+      "dog/text_named_png.png"
+    ],
+    "valid_after_autofix": 24
+  },
+  "images/too_few": {
+    "VAL-2": [
+      "cat",
+      "dog"
+    ],
+    "severity": "error"
+  },
+  "images/low": {
+    "VAL-3": [
+      "cat",
+      "dog"
+    ],
+    "severity": "warning"
+  },
+  "images/imbalance": {
+    "VAL-4": {
+      "ratio": 11.0,
+      "largest": "big",
+      "smallest": "small"
+    },
+    "VAL-3": [
+      "small"
+    ],
+    "severity": "warning"
+  },
+  "images/dupes": {
+    "VAL-5": {
+      "exact_duplicate_groups_min": 7,
+      "detail": "5 cat copy_* groups + 2 conflict_* pairs (cross-class)"
+    },
+    "VAL-6": {
+      "near_duplicate_pairs": 3,
+      "files": [
+        "dog/near_000..002.png vs dog/img_000..002.png"
+      ]
+    },
+    "VAL-8": {
+      "conflicts": 2,
+      "files": [
+        "conflict_0.png",
+        "conflict_1.png"
+      ]
+    }
+  },
+  "images/split_leak": {
+    "VAL-5": {
+      "exact_duplicate_groups": 30
+    },
+    "VAL-7": {
+      "severity": "error",
+      "expected_after_autofix": 0
+    }
+  },
+  "images/split_leak_presplit": {
+    "VAL-7": {
+      "train_test_shared": 10,
+      "severity": "error"
+    }
+  },
+  "images/quality": {
+    "VAL-13": {
+      "tiny_lt_32px": 3,
+      "extreme_aspect": 2,
+      "grayscale_in_rgb_set": 4
+    },
+    "severity": "info/warning"
+  },
+  "tabular/clean.csv": {
+    "rows": 300,
+    "target": "churn",
+    "errors": [],
+    "note": "control set"
+  },
+  "tabular/leaky.csv": {
+    "target": "churn",
+    "VAL-9": {
+      "column": "mostly_missing",
+      "missing_fraction": 0.583
+    },
+    "VAL-10": [
+      "customer_id",
+      "row_no"
+    ],
+    "VAL-11": {
+      "columns": [
+        "churn_outcome",
+        "cancelled_date"
+      ],
+      "severity": "error until acknowledged"
+    },
+    "VAL-12": {
+      "constant": [
+        "country"
+      ],
+      "high_cardinality": [
+        "session_hash"
+      ]
+    }
+  },
+  "tabular/too_few.csv": {
+    "rows": 40,
+    "VAL-2": "error (< 50 rows)"
+  },
+  "tabular/duplicate_rows.csv": {
+    "rows": 110,
+    "VAL-5": {
+      "exact_duplicate_rows": 10
+    }
+  },
+  "tabular/grouped.csv": {
+    "rows": 200,
+    "group_column": "patient_id",
+    "groups": 40,
+    "DAT-6": "each patient_id in exactly one split"
+  },
+  "tabular/clean.xlsx": {
+    "rows": 60,
+    "sheet": "Sheet1",
+    "DAT-2": "same columns as clean.csv"
+  },
+  "tabular/clean.parquet": {
+    "rows": 80,
+    "DAT-2": "same columns and types as clean.csv"
+  },
+  "text/mixed.csv": {
+    "rows": 39,
+    "VAL-14": {
+      "empty_or_whitespace": 2,
+      "very_short": 3,
+      "scripts": {
+        "Latin": 30,
+        "Devanagari": 4,
+        "Tamil": 2,
+        "emoji_only": 1
+      },
+      "hinglish_romanised": 4
+    },
+    "note": "non-English or code-mixed = 10/39 (25.6%) > 10%, so expect the Indic/multilingual backbone suggestion"
+  },
+  "detection/coco_defects.json": {
+    "images": 20,
+    "boxes": {
+      "helmet": 57,
+      "vest": 20,
+      "glove": 10
+    },
+    "VAL-16": {
+      "out_of_bounds": 1,
+      "zero_area": 1,
+      "tiny_lt_8px": 1,
+      "images_without_boxes_unflagged": 2,
+      "class_count_warning": [
+        "vest"
+      ],
+      "class_count_error": [
+        "glove"
+      ]
+    }
+  },
+  "detection/clean_import": {
+    "images": 4,
+    "boxes": {
+      "helmet": 12,
+      "vest": 6
+    },
+    "formats": [
+      "coco_clean.json",
+      "yolo/",
+      "voc/"
+    ],
+    "DAT-8": "same box counts from all three formats"
+  },
+  "zips/valid_folders.zip": {
+    "DAT-1": {
+      "labels": {
+        "cat": 12,
+        "dog": 12
+      }
+    }
+  },
+  "zips/traversal.zip": {
+    "NFR-SEC6": "reject the archive, or drop the 4 hostile entries; nothing written outside the upload prefix",
+    "hostile_entries": [
+      "../../escape.txt",
+      "cat/../../../outside.png",
+      "/abs/absolute.png",
+      "..\\..\\windows_escape.txt"
+    ]
+  },
+  "zips/symlink.zip": {
+    "NFR-SEC6": "symlink entry not followed or materialised"
+  },
+  "zips/bomb_1gib.zip": {
+    "declared_uncompressed_bytes": 1073741824,
+    "NFR-SEC6": "rejected by ratio/size limit before full extraction; worker memory and disk stay bounded"
+  },
+  "images/decompression_bomb/cat/huge.png": {
+    "pixels": 400000000,
+    "NFR-SEC6": "image decompression-bomb limit: rejected or flagged VAL-1, never fully decoded"
+  }
+}

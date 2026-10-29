@@ -1,0 +1,12 @@
+{
+  "_comment": "Prod S3 bucket CORS (dev MinIO allows * globally). Apply: aws s3api put-bucket-cors --bucket <bucket> --cors-configuration file://infra/s3-cors.json. Replace the origin with the public app host(s). POST/DELETE are required by browser multipart uploads (Create/Complete/AbortMultipartUpload); ETag must be exposed so the client can complete the upload.",
+  "CORSRules": [
+    {
+      "AllowedOrigins": ["https://app.example.com"],
+      "AllowedMethods": ["PUT", "POST", "GET", "HEAD", "DELETE"],
+      "AllowedHeaders": ["content-type", "content-md5", "x-amz-*"],
+      "ExposeHeaders": ["ETag"],
+      "MaxAgeSeconds": 600
+    }
+  ]
+}

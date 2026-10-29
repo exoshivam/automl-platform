@@ -1,0 +1,36 @@
+# Root ignores for the whole repo. frontend/.gitignore and tests/fixtures/.gitignore add their own specifics
+# (fixture bombs are ignored there, not here).
+
+# Logs written by the service runner
+.logs/
+
+# Env files (keep the examples)
+.env
+.env.*
+!.env.example
+
+# Python
+.venv/
+__pycache__/
+*.pyc
+.pytest_cache/
+.ruff_cache/
+backend/var/
+
+# JS
+node_modules/
+
+# Build output
+dist/
+build/
+
+# ML
+mlruns/
+
+# OS
+.DS_Store
+
+# Starter dataset library raw downloads (DAT-13), local only
+.starter-cache/
+# Pretrained model packs (InsightFace etc.), local only
+.model-cache/
