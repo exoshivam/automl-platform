@@ -57,7 +57,7 @@ export function AppShell() {
 
       <aside className="sticky top-0 hidden h-dvh w-60 shrink-0 flex-col border-r bg-sidebar lg:flex">
         <div className="flex h-14 items-center border-b px-5">
-          <Link to="/projects" aria-label="AutoML home">
+          <Link to="/" aria-label="AutoML home">
             <Logo />
           </Link>
         </div>

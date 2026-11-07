@@ -18,6 +18,7 @@ import { PeoplePage } from '@/features/face/people-page';
 import { ExamplesPage } from '@/features/text/examples-page';
 import { SpeakersPage } from '@/features/speaker/speakers-page';
 import { DeployPage } from '@/features/deploy/deploy-page';
+import { LandingPage } from '@/features/landing/landing-page';
 import { ApiKeysPage } from '@/features/deploy/api-keys-page';
 import { SettingsPage } from '@/features/projects/settings-page';
 
@@ -47,6 +48,8 @@ const loginRoute = createRoute({
   beforeLoad: guestOnly,
   component: LoginPage,
 });
+/** Public landing page: no session needed. */
+const landingRoute = createRoute({ getParentRoute: () => rootRoute, path: '/', component: LandingPage });
 const registerRoute = createRoute({ getParentRoute: () => rootRoute, path: '/register', beforeLoad: guestOnly, component: RegisterPage });
 const verifyRoute = createRoute({
   getParentRoute: () => rootRoute,
@@ -65,7 +68,6 @@ const appRoute = createRoute({
   component: AppShell,
 });
 
-const indexRoute = createRoute({ getParentRoute: () => appRoute, path: '/', beforeLoad: () => { throw redirect({ to: '/projects' }); } });
 const projectsRoute = createRoute({ getParentRoute: () => appRoute, path: '/projects', component: ProjectsPage });
 const newProjectRoute = createRoute({ getParentRoute: () => appRoute, path: '/projects/new', component: NewProjectPage });
 const apiKeysRoute = createRoute({ getParentRoute: () => appRoute, path: '/keys', component: ApiKeysPage });
@@ -138,7 +140,7 @@ const projectSpeakersRoute = mlRoute('/speakers', SpeakersPage);
 const projectDeployRoute = mlRoute('/deploy', DeployPage);
 const projectFaceSettingsRoute = mlRoute('/settings', SettingsPage);
 
-const routeTree = rootRoute.addChildren([loginRoute, registerRoute, verifyRoute, appRoute.addChildren([indexRoute, projectsRoute, newProjectRoute, apiKeysRoute, projectRoute.addChildren([projectIndexRoute, projectDataRoute, projectDatasetRoute, projectLabelRoute, projectTrainRoute, projectEvaluateRoute, projectPlaygroundRoute, projectExportRoute, projectPeopleRoute, projectFaceSettingsRoute, projectExamplesRoute, projectSpeakersRoute, projectDeployRoute])])]);
+const routeTree = rootRoute.addChildren([landingRoute, loginRoute, registerRoute, verifyRoute, appRoute.addChildren([projectsRoute, newProjectRoute, apiKeysRoute, projectRoute.addChildren([projectIndexRoute, projectDataRoute, projectDatasetRoute, projectLabelRoute, projectTrainRoute, projectEvaluateRoute, projectPlaygroundRoute, projectExportRoute, projectPeopleRoute, projectFaceSettingsRoute, projectExamplesRoute, projectSpeakersRoute, projectDeployRoute])])]);
 
 export const router = createRouter({ routeTree, defaultPreload: 'intent' });
 

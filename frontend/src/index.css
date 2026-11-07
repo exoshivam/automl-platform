@@ -112,3 +112,15 @@
     }
   }
 }
+
+/* Landing page: panel fade when a workflow step is picked, and the glowing "new head" block. */
+@keyframes landing-fadeup {
+  from { opacity: 0; transform: translateY(8px); }
+  to { opacity: 1; transform: none; }
+}
+@keyframes landing-glow {
+  50% { box-shadow: 0 0 22px color-mix(in oklch, var(--color-teal-500) 55%, transparent); }
+}
+@media (prefers-reduced-motion: no-preference) {
+  html { scroll-behavior: smooth; }
+}
